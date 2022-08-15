@@ -27,9 +27,9 @@ public class ProductGetDto {
 
     private double amount;
 
-    private MeasurementDTO measurementDTO;
+    private MeasurementGetDto measurementGetDto;
 
-    private CategoryDTO categoryDTO;
+    private CategoryGetDto categoryGetDto;
 
     private boolean deleted;
 }
