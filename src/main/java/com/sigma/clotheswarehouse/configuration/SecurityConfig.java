@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -46,8 +47,11 @@ public class SecurityConfig {
         http
                 .cors()
                 .and()
-//                .csrf()
-//                .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .csrf()
+                .disable()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers("/api/**","/swagger-resources/**",
                                 "/swagger-ui/**",
@@ -71,18 +75,18 @@ public class SecurityConfig {
     }
 
 
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/**")
-//                        .allowedOrigins("http://localhost:3000")
-//                        .allowedMethods("GET, POST", "PUT", "PATCH", "DELETE")
-//                        .allowedHeaders("*");
-//            }
-//        };
-//    }
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:3000")
+                        .allowedMethods("GET, POST", "PUT", "PATCH", "DELETE")
+                        .allowedHeaders("*");
+            }
+        };
+    }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
