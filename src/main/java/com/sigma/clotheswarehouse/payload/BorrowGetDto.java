@@ -5,16 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientGetDto {
-    private Long id;
-    private String fio;
-    private String phoneNumber;
-    private String address;
-    private Double borrowAmount;
+public class BorrowGetDto {
+    private UUID id;
+    private Long clientId;
+    private Double amount;
     private Timestamp beginDate;
     private Timestamp endDate;
     private boolean deleted;

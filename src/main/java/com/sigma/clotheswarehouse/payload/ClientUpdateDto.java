@@ -12,5 +12,4 @@ public class ClientUpdateDto {
     private String fio;
     private String phoneNumber;
     private String address;
-    private boolean deleted;
 }
