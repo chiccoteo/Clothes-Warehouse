@@ -43,8 +43,8 @@ public class MaterialService {
             material.setMeasurement(optionalMeasurement.get());
         else
             material.setMeasurement(measurementRepository.save(measurement));
-        materialRepo.save(material);
-        return new ApiResponse(true, "Successfully saved");
+        Material savedMaterial = materialRepo.save(material);
+        return new ApiResponse(true, "Successfully saved", savedMaterial.getId());
     }
 
     public ApiResponse getAllMaterials(Integer page, Integer size) {

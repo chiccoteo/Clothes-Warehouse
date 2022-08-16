@@ -47,8 +47,8 @@ public class OutcomeMaterialService {
         if (resourceForOutcomeMaterials == null)
             return new ApiResponse(false, "Such material does not exist or there is not enough material");
         outcomeMaterial.setResources(resourceForOutcomeMaterials);
-        outcomeMaterialRepo.save(outcomeMaterial);
-        return new ApiResponse(true, "Successfully saved");
+        OutcomeMaterial savedOutcomeMaterial = outcomeMaterialRepo.save(outcomeMaterial);
+        return new ApiResponse(true, "Successfully saved", savedOutcomeMaterial.getId());
     }
 
     public ApiResponse getAllOutcomeMaterials(Integer page, Integer size) {

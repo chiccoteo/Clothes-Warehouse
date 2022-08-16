@@ -49,8 +49,8 @@ public class BorrowService {
         borrow.setBeginDate(borrowPostDto.getBeginDate());
         borrow.setEndDate(borrowPostDto.getEndDate());
         borrow.setDeleted(false);
-        borrowRepository.save(borrow);
-        return new ApiResponse(true, "Successfully saved");
+        Borrow savedBorrow = borrowRepository.save(borrow);
+        return new ApiResponse(true, "Successfully saved", savedBorrow.getId());
     }
 
     public ApiResponse getById(UUID id) {

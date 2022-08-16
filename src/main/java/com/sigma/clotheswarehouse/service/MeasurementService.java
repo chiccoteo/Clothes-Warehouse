@@ -23,8 +23,8 @@ public class MeasurementService {
             return new ApiResponse(false, "Measurement's name is exist");
         }
         Measurement measurement = new Measurement(measurementPostDto.getName(), false);
-        measurementRepository.save(measurement);
-        return new ApiResponse(true, "Measurement successfully saved");
+        Measurement savedMeasurement = measurementRepository.save(measurement);
+        return new ApiResponse(true, "Measurement successfully saved", savedMeasurement.getId());
     }
 
 

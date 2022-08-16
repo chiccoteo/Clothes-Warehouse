@@ -68,8 +68,10 @@ public class IncomeMaterialService {
 
             incomeMaterialList.add(incomeMaterial);
         }
-        incomeMaterialRepo.saveAll(incomeMaterialList);
-        return new ApiResponse(true, "Successfully saved");
+        List<IncomeMaterial> incomeMaterials = incomeMaterialRepo.saveAll(incomeMaterialList);
+        List<UUID> incomeMaterialsIds = new LinkedList<>();
+        incomeMaterials.forEach(incomeMaterial -> incomeMaterialsIds.add(incomeMaterial.getId()));
+        return new ApiResponse(true, "Successfully saved", incomeMaterialsIds);
     }
 
     public ApiResponse getAllIncomeMaterials(Integer page, Integer size) {

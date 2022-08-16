@@ -97,10 +97,11 @@ public class ProductService {
     public HttpEntity<?> create(ProductDTO dto) {
         if (dto.getCategoryId() != null && dto.getMeasurementId() != null) {
             Product product = mapper.toEntity(dto);
+            Product savedProduct = repository.save(product);
             return ResponseEntity.status(HttpStatus.OK).
                     body(new ApiResponse
                             (true, "PRODUCT_SAVED",
-                                    mapper.toDTO(repository.save(product))));
+                                    savedProduct.getId()));
         }
         return ResponseEntity.status(400).body(new ApiResponse(false, "CATEGORY_OR_MEASUREMENT_NOT_FOUND"));
     }

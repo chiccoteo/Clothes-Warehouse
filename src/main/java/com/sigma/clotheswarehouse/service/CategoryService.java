@@ -24,8 +24,8 @@ public class CategoryService {
             return new ApiResponse(false,"exist");
         }
         category.setName(categoryPostDto.getName());
-        categoryRepository.save(category);
-        return new ApiResponse(true,"success");
+        Category savedCategory = categoryRepository.save(category);
+        return new ApiResponse(true,"success", savedCategory.getId());
     }
 
     public ApiResponse getById(Long id) {

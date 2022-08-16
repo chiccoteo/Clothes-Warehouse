@@ -44,7 +44,7 @@ public class ClientService {
             Borrow borrow = new Borrow(clientPostDto.getBorrowAmount(), clientPostDto.getBeginDate(), clientPostDto.getEndDate(), false, saveClient);
             borrowRepository.save(borrow);
         }
-        return new ApiResponse(true, "Successfully saved");
+        return new ApiResponse(true, "Successfully saved", saveClient.getId());
     }
 
 
