@@ -21,7 +21,6 @@ import java.util.Optional;
 public class ClientService {
 
 
-
     private final ClientRepository clientRepository;
 
     private final BorrowRepository borrowRepository;
@@ -31,21 +30,21 @@ public class ClientService {
         Optional<Client> clientRepositoryByPhoneNumber = clientRepository.findByPhoneNumber(clientPostDto.getPhoneNumber());
         System.out.println(clientRepositoryByPhoneNumber);
         if (clientRepositoryByPhoneNumber.isPresent()) {
-               return new ApiResponse(false, "Phone number is exist");
+            return new ApiResponse(false, "Phone number is exist");
         }
-        if (clientPostDto.getBorrowAmount() > AppConstant.borrow){
+        if (clientPostDto.getBorrowAmount() > AppConstant.borrow) {
             return new ApiResponse(false, "Borrow more than limit");
-        }else if (clientPostDto.getBorrowAmount() < 0){
+        } else if (clientPostDto.getBorrowAmount() < 0) {
             return new ApiResponse(false, "Borrow must not minus");
         }
         Client client = new Client(clientPostDto.getFio(), clientPostDto.getPhoneNumber(),
                 clientPostDto.getAddress(), false);
         Client saveClient = clientRepository.save(client);
-        if (clientPostDto.getBorrowAmount() > 0){
-            Borrow borrow = new Borrow(clientPostDto.getBorrowAmount(), clientPostDto.getBeginDate(), clientPostDto.getEndDate(),false,saveClient);
+        if (clientPostDto.getBorrowAmount() > 0) {
+            Borrow borrow = new Borrow(clientPostDto.getBorrowAmount(), clientPostDto.getBeginDate(), clientPostDto.getEndDate(), false, saveClient);
             borrowRepository.save(borrow);
         }
-        return new ApiResponse(true,"Successfully saved");
+        return new ApiResponse(true, "Successfully saved");
     }
 
 
@@ -53,10 +52,10 @@ public class ClientService {
     public ApiResponse getById(Long id) {
         Optional<Client> clientOptional = clientRepository.findById(id);
 
-        if (clientOptional.isEmpty()){
-            return new ApiResponse(false,"Such a client does not exist");
+        if (clientOptional.isEmpty()) {
+            return new ApiResponse(false, "Such a client does not exist");
         }
-        List<Borrow> borrow = borrowRepository.getBorrowListByClient_Id(id,false);
+        List<Borrow> borrow = borrowRepository.getBorrowListByClient_Id(id, false);
         Double sum = 0.0;
         for (Borrow borrow1 : borrow) {
             sum += borrow1.getAmount();
@@ -69,10 +68,10 @@ public class ClientService {
             clientGetDto.setPhoneNumber(client.getPhoneNumber());
             clientGetDto.setAddress(client.getAddress());
             clientGetDto.setBorrowAmount(sum);
-            clientGetDto.setBeginDate(borrow.get(1).getBeginDate());
-            clientGetDto.setEndDate(borrow.get(1).getEndDate());
+            clientGetDto.setBeginDate(borrow.get(0).getBeginDate());
+            clientGetDto.setEndDate(borrow.get(0).getEndDate());
             clientGetDto.setDeleted(client.isDeleted());
-        }else {
+        } else {
             clientGetDto.setId(client.getId());
             clientGetDto.setFio(client.getFio());
             clientGetDto.setPhoneNumber(client.getPhoneNumber());
@@ -83,17 +82,17 @@ public class ClientService {
             clientGetDto.setDeleted(client.isDeleted());
         }
 
-        return new ApiResponse(true,"Success",clientGetDto);
+        return new ApiResponse(true, "Success", clientGetDto);
     }
 
     public ApiResponse getClients() {
         List<Client> clientList = clientRepository.findAll();
         List<ClientGetDto> clientGetDtoList = new LinkedList<>();
-        if (clientList.isEmpty()){
+        if (clientList.isEmpty()) {
             return new ApiResponse(false, "There isn't client");
         }
         for (Client client : clientList) {
-            List<Borrow> borrow = borrowRepository.getBorrowListByClient_Id(client.getId(),false);
+            List<Borrow> borrow = borrowRepository.getBorrowListByClient_Id(client.getId(), false);
             ClientGetDto clientGetDto = new ClientGetDto();
             if (borrow.isEmpty()) {
                 clientGetDto.setId(client.getId());
@@ -114,19 +113,19 @@ public class ClientService {
                 clientGetDto.setPhoneNumber(client.getPhoneNumber());
                 clientGetDto.setAddress(client.getAddress());
                 clientGetDto.setBorrowAmount(sum);
-                clientGetDto.setBeginDate(borrow.get(1).getBeginDate());
-                clientGetDto.setEndDate(borrow.get(1).getEndDate());
+                clientGetDto.setBeginDate(borrow.get(0).getBeginDate());
+                clientGetDto.setEndDate(borrow.get(0).getEndDate());
                 clientGetDto.setDeleted(client.isDeleted());
             }
             clientGetDtoList.add(clientGetDto);
         }
-        return new ApiResponse(true, "All Clients",clientGetDtoList);
+        return new ApiResponse(true, "All Clients", clientGetDtoList);
     }
 
     public ApiResponse updateClient(long id, ClientUpdateDto clientUpdateDto) {
         Optional<Client> clientOptional = clientRepository.findById(id);
-        if (clientOptional.isEmpty()){
-            return new ApiResponse(false,"Such a client does not exist");
+        if (clientOptional.isEmpty()) {
+            return new ApiResponse(false, "Such a client does not exist");
         }
         Optional<Client> optionalClient = clientRepository.findByPhoneNumber(clientUpdateDto.getPhoneNumber());
         if (optionalClient.isPresent()) {
@@ -141,13 +140,13 @@ public class ClientService {
         client.setPhoneNumber(clientUpdateDto.getPhoneNumber());
         client.setAddress(clientUpdateDto.getAddress());
         clientRepository.save(client);
-        return new ApiResponse(true,"Client updated successfully");
+        return new ApiResponse(true, "Client updated successfully");
     }
 
     public ApiResponse deleteClient(Long id) {
         Optional<Client> clientOptional = clientRepository.findById(id);
-        if (clientOptional.isEmpty()){
-            return new ApiResponse(false,"Such a material does not exist");
+        if (clientOptional.isEmpty()) {
+            return new ApiResponse(false, "Such a material does not exist");
         }
         Client client = clientOptional.get();
         client.setDeleted(true);
