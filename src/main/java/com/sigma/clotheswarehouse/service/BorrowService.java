@@ -29,18 +29,18 @@ public class BorrowService {
     public ApiResponse addBorrow(BorrowPostDto borrowPostDto) {
         Double sum = 0.0;
         Optional<Client> client = clientRepository.findById(borrowPostDto.getClientId());
-        if (client.isEmpty()){
-            return new ApiResponse(false,"Such a client does not exist");
+        if (client.isEmpty()) {
+            return new ApiResponse(false, "Such a client does not exist");
         }
         List<Borrow> borrowList = borrowRepository.findByClient_IdAndDeletedIsFalse(client.get().getId());
         for (Borrow borrow : borrowList) {
             sum += borrow.getAmount();
         }
-        if ((sum + borrowPostDto.getAmount() > AppConstant.borrow)){
+        if ((sum + borrowPostDto.getAmount() > AppConstant.borrow)) {
             return new ApiResponse(false, "Clientni qarzi belgilangan " +
                     "miqdordan oshib ketdi. Saqlash mumkin emas");
         }
-        if (borrowPostDto.getBeginDate().after(borrowPostDto.getEndDate())){
+        if (borrowPostDto.getBeginDate().after(borrowPostDto.getEndDate())) {
             return new ApiResponse(false, "Date is not right");
         }
         Borrow borrow = new Borrow();
@@ -55,8 +55,8 @@ public class BorrowService {
 
     public ApiResponse getById(UUID id) {
         Optional<Borrow> optionalBorrow = borrowRepository.findById(id);
-        if (optionalBorrow.isEmpty()){
-            return new ApiResponse(false,"Such a borrow does not exist");
+        if (optionalBorrow.isEmpty()) {
+            return new ApiResponse(false, "Such a borrow does not exist");
         }
         Borrow borrow = optionalBorrow.get();
         BorrowGetDto borrowGetDto = new BorrowGetDto();
@@ -66,17 +66,17 @@ public class BorrowService {
         borrowGetDto.setBeginDate(borrow.getBeginDate());
         borrowGetDto.setEndDate(borrow.getEndDate());
         borrowGetDto.setDeleted(borrow.isDeleted());
-        return new ApiResponse(true,"Success", borrowGetDto);
+        return new ApiResponse(true, "Success", borrowGetDto);
     }
 
     public ApiResponse getBorrows() {
         List<Borrow> borrowList = borrowRepository.findByDeletedFalse();
         List<BorrowGetDto> borrowGetDtoList = new LinkedList<>();
-        if (borrowList.isEmpty()){
+        if (borrowList.isEmpty()) {
             return new ApiResponse(false, "There isn't borrow");
         }
         for (Borrow borrow : borrowList) {
-            if (!borrow.getClient().isDeleted()){
+            if (!borrow.getClient().isDeleted()) {
                 BorrowGetDto borrowGetDto = new BorrowGetDto();
                 borrowGetDto.setId(borrow.getId());
                 borrowGetDto.setClientId(borrow.getClient().getId());
@@ -86,29 +86,29 @@ public class BorrowService {
                 borrowGetDtoList.add(borrowGetDto);
             }
         }
-        return new ApiResponse(true,"Success",borrowGetDtoList);
+        return new ApiResponse(true, "Success", borrowGetDtoList);
     }
 
     public ApiResponse updateBorrow(UUID id, BorrowUpdateDto borrowUpdateDto) {
         Optional<Borrow> optionalBorrow = borrowRepository.findById(id);
-        if (optionalBorrow.isEmpty()){
-            return new ApiResponse(false,"Such a borrow does not exist");
+        if (optionalBorrow.isEmpty()) {
+            return new ApiResponse(false, "Such a borrow does not exist");
         }
         Borrow borrow = optionalBorrow.get();
         Double sum = 0.0;
         Optional<Client> client = clientRepository.findById(borrowUpdateDto.getClientId());
-        if (client.isEmpty()){
-            return new ApiResponse(false,"Such a client does not exist");
+        if (client.isEmpty()) {
+            return new ApiResponse(false, "Such a client does not exist");
         }
         List<Borrow> borrowList = borrowRepository.findByClient_IdAndDeletedIsFalse(client.get().getId());
         for (Borrow borrow1 : borrowList) {
             sum += borrow1.getAmount();
         }
-        if ((sum + borrowUpdateDto.getAmount() > AppConstant.borrow)){
+        if ((sum + borrowUpdateDto.getAmount() > AppConstant.borrow)) {
             return new ApiResponse(false, "Clientni qarzi belgilangan " +
                     "miqdordan oshib ketdi. O'zgartirish amalga oshmadi");
         }
-        if (borrowUpdateDto.getBeginDate().after(borrowUpdateDto.getEndDate())){
+        if (borrowUpdateDto.getBeginDate().after(borrowUpdateDto.getEndDate())) {
             return new ApiResponse(false, "Date is not right");
         }
         borrow.setClient(client.get());
@@ -116,20 +116,19 @@ public class BorrowService {
         borrow.setBeginDate(borrowUpdateDto.getBeginDate());
         borrow.setEndDate(borrowUpdateDto.getEndDate());
         borrowRepository.save(borrow);
-        return new ApiResponse(true,"Successfully updated");
+        return new ApiResponse(true, "Successfully updated");
     }
-
 
 
     public ApiResponse deleteClientBorrow(Long id) {
         List<Borrow> borrow = borrowRepository.findByClient_IdAndDeletedIsFalseOrderByBeginDateAsc(id);
-        if (borrow == null){
+        if (borrow == null) {
             return new ApiResponse(false, "Client doesn't have borrow");
         }
         for (Borrow borrow1 : borrow) {
             borrow1.setDeleted(true);
             borrowRepository.save(borrow1);
         }
-        return new ApiResponse(true,"Clients borrow successfully deleted");
+        return new ApiResponse(true, "Clients borrow successfully deleted");
     }
 }
