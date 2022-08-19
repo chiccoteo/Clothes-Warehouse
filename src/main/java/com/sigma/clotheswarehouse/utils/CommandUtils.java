@@ -3,6 +3,7 @@ package com.sigma.clotheswarehouse.utils;
 import com.sigma.clotheswarehouse.exceptions.PageSizeException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import static com.sigma.clotheswarehouse.utils.AppConstant.MAX_PAGE_SIZE;
 
@@ -20,7 +21,7 @@ public class CommandUtils {
 
     public static Pageable simplePageable(int page, int size) throws PageSizeException {
         validatePageAndSize(page, size);
-        return PageRequest.of(page, size);
+        return PageRequest.of(page, size, Sort.by("id"));
     }
 
 }
