@@ -19,9 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +35,12 @@ public class ProductService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Product> productPage = repository.findAllByDeletedFalse(pageable);
         List<ProductGetDto> DTOs = mapper.getDTOs(productPage.toList());
-        return ResponseEntity.ok(DTOs);
+        Map<String, Object> response = new HashMap<>();
+        response.put("products", DTOs);
+        response.put("currentPage", productPage.getNumber());
+        response.put("totalItems", productPage.getTotalElements());
+        response.put("totalPages", productPage.getTotalPages());
+        return ResponseEntity.ok(response);
     }
 
     public HttpEntity<?> getById(UUID id) {
@@ -104,5 +107,9 @@ public class ProductService {
                                     savedProduct.getId()));
         }
         return ResponseEntity.status(400).body(new ApiResponse(false, "CATEGORY_OR_MEASUREMENT_NOT_FOUND"));
+    }
+
+    public HttpEntity<?> getAllWithoutPage() {
+        return ResponseEntity.ok(mapper.getDTOs(repository.findAll()));
     }
 }
