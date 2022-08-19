@@ -24,6 +24,8 @@ public class MaterialController {
     private final MaterialService materialService;
     private static final String ALL_MATERIALS = "/all";
 
+    private static final String ALL_MATERIALS_WITHOUT_PAGE = "/allWithoutPage";
+
     private static final String MATERIAL_BY_ID = "/getById";
 
     private static final String UPDATE_MATERIAL_BY_ID = "/updateById";
@@ -44,6 +46,12 @@ public class MaterialController {
     ) {
         ApiResponse apiResponse = materialService.getAllMaterials(page, size);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 400).body(apiResponse);
+    }
+
+    @GetMapping(ALL_MATERIALS_WITHOUT_PAGE)
+    public HttpEntity<?> getAllMaterialsWithoutPage() {
+        ApiResponse apiResponse = materialService.getAllMaterialsWithoutPage();
+        return ResponseEntity.ok(apiResponse);
     }
 
     @GetMapping(MATERIAL_BY_ID)

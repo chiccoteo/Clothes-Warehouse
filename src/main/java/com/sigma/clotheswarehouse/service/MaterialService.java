@@ -91,4 +91,8 @@ public class MaterialService {
         materialRepo.save(material);
         return new ApiResponse(true, "Successfully deleted");
     }
+
+    public ApiResponse getAllMaterialsWithoutPage() {
+        return new ApiResponse(true, "All materials without page", materialMapper.toDTOList(materialRepo.findAll()));
+    }
 }
