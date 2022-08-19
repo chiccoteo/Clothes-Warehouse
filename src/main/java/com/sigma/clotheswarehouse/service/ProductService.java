@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
 
     public HttpEntity<?> getAll(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
         Page<Product> productPage = repository.findAllByDeletedFalse(pageable);
         List<ProductGetDto> DTOs = mapper.getDTOs(productPage.toList());
         Map<String, Object> response = new HashMap<>();
