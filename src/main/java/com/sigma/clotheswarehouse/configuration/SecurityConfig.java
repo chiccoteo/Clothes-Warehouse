@@ -45,15 +45,13 @@ public class SecurityConfig {
                 .and()
                 .csrf()
                 .disable()
-                .formLogin().defaultSuccessUrl("https://first-project-clothes.vercel.app/")
-                .and()
                 .authorizeHttpRequests()
                 .antMatchers("/api/**",
                         "/swagger-resources/**",
                         "/swagger-ui/**",
                         "/clothes-warehouse",
                         "/webjars/**")
-                .hasAnyRole("ADMIN")
+                .permitAll()
                 .anyRequest()
                 .authenticated();
         return http.build();
