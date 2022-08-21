@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .and()
                 .csrf()
                 .disable()
-                .formLogin()
+                .formLogin().defaultSuccessUrl("https://first-project-clothes.vercel.app/")
                 .and()
                 .authorizeHttpRequests()
                 .antMatchers("/api/**",
@@ -63,7 +63,7 @@ public class SecurityConfig {
     @Bean
     CorsFilter corsFilter() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:3001"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:3001", "https://first-project-clothes.vercel.app"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("*"));
