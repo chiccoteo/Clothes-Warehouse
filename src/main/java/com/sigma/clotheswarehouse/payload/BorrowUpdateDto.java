@@ -9,13 +9,9 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientGetDto {
-    private Long id;
-    private String fio;
-    private String phoneNumber;
-    private String address;
-    private Double borrowAmount;
+public class BorrowUpdateDto {
+    private Long clientId;
+    private Double amount;
     private Timestamp beginDate;
     private Timestamp endDate;
-    private boolean deleted;
 }

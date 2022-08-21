@@ -12,6 +12,7 @@ import static com.sigma.clotheswarehouse.utils.AppConstant.BASE_PATH;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(BASE_PATH + "/category")
+@CrossOrigin(maxAge = 3600)
 public class CategoryController {
 
     private final CategoryService categoryService;

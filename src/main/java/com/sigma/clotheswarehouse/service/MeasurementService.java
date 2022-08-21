@@ -1,9 +1,7 @@
 package com.sigma.clotheswarehouse.service;
 
-import com.sigma.clotheswarehouse.entity.Client;
 import com.sigma.clotheswarehouse.entity.Measurement;
 import com.sigma.clotheswarehouse.payload.ApiResponse;
-import com.sigma.clotheswarehouse.payload.ClientGetDto;
 import com.sigma.clotheswarehouse.payload.MeasurementGetDto;
 import com.sigma.clotheswarehouse.payload.MeasurementPostDto;
 import com.sigma.clotheswarehouse.repository.MeasurementRepository;
@@ -25,8 +23,8 @@ public class MeasurementService {
             return new ApiResponse(false, "Measurement's name is exist");
         }
         Measurement measurement = new Measurement(measurementPostDto.getName(), false);
-        measurementRepository.save(measurement);
-        return new ApiResponse(true, "Measurement successfully saved");
+        Measurement savedMeasurement = measurementRepository.save(measurement);
+        return new ApiResponse(true, "Measurement successfully saved", savedMeasurement.getId());
     }
 
 

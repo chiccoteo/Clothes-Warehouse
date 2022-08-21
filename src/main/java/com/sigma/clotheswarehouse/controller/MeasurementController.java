@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(AppConstant.BASE_PATH + "/measurement")
+@CrossOrigin(maxAge = 3600)
 public class MeasurementController {
 
     final private MeasurementService measurementService;

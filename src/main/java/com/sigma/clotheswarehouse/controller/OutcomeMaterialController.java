@@ -18,6 +18,7 @@ import static com.sigma.clotheswarehouse.utils.AppConstant.DEFAULT_SIZE;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(AppConstant.BASE_PATH + "/outcomeMaterial")
+@CrossOrigin(maxAge = 3600)
 public class OutcomeMaterialController {
 
     private final OutcomeMaterialService outcomeMaterialService;

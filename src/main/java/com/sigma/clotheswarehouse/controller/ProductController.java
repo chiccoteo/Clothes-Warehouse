@@ -12,6 +12,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(AppConstant.BASE_PATH + "/product")
 @RequiredArgsConstructor
+@CrossOrigin(maxAge = 3600)
 public class ProductController {
 
     private final ProductService productService;
@@ -19,6 +20,11 @@ public class ProductController {
     @GetMapping("/{page}/{size}")
     public HttpEntity<?> getAll(@PathVariable int page, @PathVariable int size) {
         return productService.getAll(page,size);
+    }
+
+    @GetMapping("/all")
+    public HttpEntity<?> getAllWithoutPage() {
+        return productService.getAllWithoutPage();
     }
 
     @GetMapping("/{id}")

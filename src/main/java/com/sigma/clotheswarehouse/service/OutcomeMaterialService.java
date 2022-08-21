@@ -47,8 +47,8 @@ public class OutcomeMaterialService {
         if (resourceForOutcomeMaterials == null)
             return new ApiResponse(false, "Such material does not exist or there is not enough material");
         outcomeMaterial.setResources(resourceForOutcomeMaterials);
-        outcomeMaterialRepo.save(outcomeMaterial);
-        return new ApiResponse(true, "Successfully saved");
+        OutcomeMaterial savedOutcomeMaterial = outcomeMaterialRepo.save(outcomeMaterial);
+        return new ApiResponse(true, "Successfully saved", savedOutcomeMaterial.getId());
     }
 
     public ApiResponse getAllOutcomeMaterials(Integer page, Integer size) {
@@ -112,8 +112,8 @@ public class OutcomeMaterialService {
         if (optionalOutcomeMaterial.isEmpty())
             return new ApiResponse(false, "Such an outcome material does not exist");
         OutcomeMaterial outcomeMaterial = optionalOutcomeMaterial.get();
-        outcomeMaterialRepo.delete(outcomeMaterial);
         rollbackAfterDeletingOutcomeMaterial(outcomeMaterial);
+        outcomeMaterialRepo.delete(outcomeMaterial);
         return new ApiResponse(true, "Successfully deleted");
     }
 
@@ -123,7 +123,6 @@ public class OutcomeMaterialService {
             Material material = resource.getMaterial();
             material.setAmount(material.getAmount() + resource.getMaterialAmount());
             materials.add(material);
-            resourceForOutcomeMaterialRepo.delete(resource);
         }
         materialRepo.saveAll(materials);
 

@@ -68,8 +68,10 @@ public class IncomeMaterialService {
 
             incomeMaterialList.add(incomeMaterial);
         }
-        incomeMaterialRepo.saveAll(incomeMaterialList);
-        return new ApiResponse(true, "Successfully saved");
+        List<IncomeMaterial> incomeMaterials = incomeMaterialRepo.saveAll(incomeMaterialList);
+        List<UUID> incomeMaterialsIds = new LinkedList<>();
+        incomeMaterials.forEach(incomeMaterial -> incomeMaterialsIds.add(incomeMaterial.getId()));
+        return new ApiResponse(true, "Successfully saved", incomeMaterialsIds);
     }
 
     public ApiResponse getAllIncomeMaterials(Integer page, Integer size) {
@@ -81,7 +83,7 @@ public class IncomeMaterialService {
         }
         List<IncomeMaterialDTO> incomeMaterialGetDTOS = incomeMaterialMapper.toDTOList(incomeMaterialPage.getContent());
         Map<String, Object> response = new HashMap<>();
-        response.put("income materials", incomeMaterialGetDTOS);
+        response.put("incomeMaterials", incomeMaterialGetDTOS);
         response.put("currentPage", incomeMaterialPage.getNumber());
         response.put("totalItems", incomeMaterialPage.getTotalElements());
         response.put("totalPages", incomeMaterialPage.getTotalPages());
@@ -98,7 +100,7 @@ public class IncomeMaterialService {
         Page<IncomeMaterial> incomeMaterialRepoAllByIncomeDateBetween = incomeMaterialRepo.findAllByIncomeDateBetween(startDate, endDate, pageable);
         List<IncomeMaterialDTO> incomeMaterialGetDTOS = incomeMaterialMapper.toDTOList(incomeMaterialRepoAllByIncomeDateBetween.getContent());
         Map<String, Object> response = new HashMap<>();
-        response.put("income materials", incomeMaterialGetDTOS);
+        response.put("incomeMaterials", incomeMaterialGetDTOS);
         response.put("currentPage", incomeMaterialRepoAllByIncomeDateBetween.getNumber());
         response.put("totalItems", incomeMaterialRepoAllByIncomeDateBetween.getTotalElements());
         response.put("totalPages", incomeMaterialRepoAllByIncomeDateBetween.getTotalPages());

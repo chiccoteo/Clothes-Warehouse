@@ -22,6 +22,7 @@ import static com.sigma.clotheswarehouse.utils.AppConstant.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(AppConstant.BASE_PATH + "/incomeMaterial")
+@CrossOrigin(maxAge = 3600)
 public class IncomeMaterialController {
 
     private final IncomeMaterialService incomeMaterialService;

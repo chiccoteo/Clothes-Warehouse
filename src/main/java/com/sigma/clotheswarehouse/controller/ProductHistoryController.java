@@ -12,6 +12,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(AppConstant.BASE_PATH + "/productHistory")
 @RequiredArgsConstructor
+@CrossOrigin(maxAge = 3600)
 public class ProductHistoryController {
 
     private final ProductHistoryService productHistoryService;
