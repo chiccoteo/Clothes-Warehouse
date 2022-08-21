@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .and()
                 .csrf()
                 .disable()
-                .formLogin().defaultSuccessUrl("/api/clothes/warehouse/auth/home", true)
+                .formLogin().defaultSuccessUrl("/api/clothes/warehouse/", true)
                 .and()
                 .authorizeHttpRequests()
                 .antMatchers("/api/**",
