@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(AppConstant.BASE_PATH+"/auth")
+@RequestMapping(AppConstant.BASE_PATH)
 public class AuthController {
 
-    @GetMapping("/home")
+    @GetMapping()
     public HttpEntity<?> home() {
         return ResponseEntity.ok("Welcome Clothes-Warehouse app");
     }
