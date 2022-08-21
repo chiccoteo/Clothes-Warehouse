@@ -50,12 +50,12 @@ public class SecurityConfig {
                 .and()
                 .csrf()
                 .disable()
-                .formLogin().defaultSuccessUrl("https://first-project-clothes.vercel.app/products", true)
+                .formLogin().defaultSuccessUrl("https://app-clothes-warehouse.herokuapp.com", true)
                 .and()
                 .httpBasic()
                 .and()
                 .authorizeHttpRequests()
-                .antMatchers("/api/**",
+                .antMatchers("/**",
                         "/swagger-resources/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html",
