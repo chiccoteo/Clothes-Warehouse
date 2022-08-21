@@ -80,9 +80,11 @@ public class ProductHistoryService {
                     (new ApiResponse(false, "PRODUCT_ID_SHOULD_NOT_BE_NULL"));
         }
         ProductHistory productHistory = mapper.toEntity(productHistoryDTO);
+        ProductHistory save = repository.save(productHistory);
+        ProductHistoryGetDTO productHistoryGetDTO = mapper.toGetDTO(save);
 
         return ResponseEntity.status(HttpStatus.OK).body
-                (new ApiResponse(true, "PRODUCT_HISTORY_SAVED", productHistory.getId()));
+                (new ApiResponse(true, "PRODUCT_HISTORY_SAVED", productHistoryGetDTO));
     }
 
     public HttpEntity<?> edit(UUID id, ProductHistoryDTO productHistoryDTO) {
