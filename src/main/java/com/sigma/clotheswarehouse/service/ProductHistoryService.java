@@ -80,14 +80,14 @@ public class ProductHistoryService {
                     (new ApiResponse(false, "PRODUCT_ID_SHOULD_NOT_BE_NULL"));
         }
         ProductHistory productHistory = mapper.toEntity(productHistoryDTO);
-
+        repository.save(productHistory);
         return ResponseEntity.status(HttpStatus.OK).body
-                (new ApiResponse(true, "PRODUCT_HISTORY_SAVED", productHistory.getId()));
+                (new ApiResponse(true, "PRODUCT_HISTORY_SAVED"));
     }
 
     public HttpEntity<?> edit(UUID id, ProductHistoryDTO productHistoryDTO) {
         //productHistory.getAmount va productHistoryDto.getAmount ning ayirmasidan qolgan son
-        double remaining = 0;
+        double remaining;
 
         if (productHistoryDTO.getProductId() != null) {
             Optional<ProductHistory> productHistoryById = repository.findById(id);
