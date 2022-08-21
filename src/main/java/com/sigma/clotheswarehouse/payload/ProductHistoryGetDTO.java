@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 
@@ -12,6 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductHistoryGetDTO {
+
     private UUID id;
 
     private ProductGetDto productGetDto;

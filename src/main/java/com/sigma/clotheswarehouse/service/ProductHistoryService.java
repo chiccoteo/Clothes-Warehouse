@@ -80,9 +80,9 @@ public class ProductHistoryService {
                     (new ApiResponse(false, "PRODUCT_ID_SHOULD_NOT_BE_NULL"));
         }
         ProductHistory productHistory = mapper.toEntity(productHistoryDTO);
-        repository.save(productHistory);
+        ProductHistory save = repository.save(productHistory);
         return ResponseEntity.status(HttpStatus.OK).body
-                (new ApiResponse(true, "PRODUCT_HISTORY_SAVED"));
+                (new ApiResponse(true, "PRODUCT_HISTORY_SAVED", mapper.toGetDTO(save)));
     }
 
     public HttpEntity<?> edit(UUID id, ProductHistoryDTO productHistoryDTO) {
@@ -121,8 +121,8 @@ public class ProductHistoryService {
                         productHistory.setProduct(product);
                         productHistory.setClient(client);
                         productHistory.setPrice(productHistoryDTO.getPrice());
-                        ProductHistoryGetDTO historyDTO = mapper.toGetDTO(repository.save(productHistory));
-                        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(true, "EDITED_PRODUCT_HISTORY", historyDTO));
+                        repository.save(productHistory);
+                        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(true, "EDITED_PRODUCT_HISTORY"));
                     }
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(false, "NOT_FOUND_CLIENT"));
                 }
