@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,7 +34,12 @@ public class SecurityConfig {
                 .password(passwordEncoder().encode("123"))
                 .roles("ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(admin);
+        UserDetails user = User.builder()
+                .username("USER")
+                .password(passwordEncoder().encode("123"))
+                .roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(admin, user);
     }
 
 
@@ -46,19 +50,16 @@ public class SecurityConfig {
                 .and()
                 .csrf()
                 .disable()
-                .formLogin()
-                .defaultSuccessUrl("https://first-project-clothes.vercel.app/", true)
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .formLogin().defaultSuccessUrl("/api/clothes/warehouse/auth/home", true)
                 .and()
                 .authorizeHttpRequests()
                 .antMatchers("/api/**",
                         "/swagger-resources/**",
                         "/swagger-ui/**",
+                        "/swagger-ui.html",
                         "/clothes-warehouse",
                         "/webjars/**")
-                .permitAll()
+                .hasAnyRole("ADMIN")
                 .anyRequest()
                 .authenticated();
         return http.build();
