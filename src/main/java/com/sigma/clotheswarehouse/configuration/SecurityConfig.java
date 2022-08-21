@@ -45,6 +45,8 @@ public class SecurityConfig {
                 .and()
                 .csrf()
                 .disable()
+                .formLogin()
+                .and()
                 .authorizeHttpRequests()
                 .antMatchers("/api/**",
                         "/swagger-resources/**",
