@@ -50,7 +50,9 @@ public class SecurityConfig {
                 .and()
                 .csrf()
                 .disable()
-                .formLogin().defaultSuccessUrl("/api/clothes/warehouse/", true)
+                .formLogin().defaultSuccessUrl("https://first-project-clothes.vercel.app/products", true)
+                .and()
+                .httpBasic()
                 .and()
                 .authorizeHttpRequests()
                 .antMatchers("/api/**",
@@ -59,7 +61,7 @@ public class SecurityConfig {
                         "/swagger-ui.html",
                         "/clothes-warehouse",
                         "/webjars/**")
-                .hasAnyRole("ADMIN")
+                .hasRole("ADMIN")
                 .anyRequest()
                 .authenticated();
         return http.build();
