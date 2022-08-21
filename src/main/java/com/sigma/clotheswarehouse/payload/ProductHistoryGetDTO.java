@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.security.Timestamp;
+
 
 @Data
 @AllArgsConstructor
@@ -16,4 +18,6 @@ public class ProductHistoryGetDTO {
     private double amount;
 
     private ClientGetDto clientGetDto;
+
+    private Timestamp date;
 }
