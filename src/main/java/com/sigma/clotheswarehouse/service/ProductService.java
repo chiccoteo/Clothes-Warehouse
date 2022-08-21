@@ -75,6 +75,7 @@ public class ProductService {
                         product.setCode(dto.getCode());
                         product.setColor(dto.getColor());
                         product.setSeriaAmount(dto.getSeriaAmount());
+                        repository.save(product);
                         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(true, "PRODUCT_EDITED"));
                     }
                     return ResponseEntity.status(400).body(new ApiResponse(false, "CATEGORY_NOT_FOUND"));
