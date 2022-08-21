@@ -53,7 +53,9 @@ public class SecurityConfig {
                         "/swagger-ui/**",
                         "/clothes-warehouse",
                         "/webjars/**")
-                .hasRole("ADMIN");
+                .hasRole("ADMIN")
+                .anyRequest()
+                .authenticated();
         return http.build();
     }
 
