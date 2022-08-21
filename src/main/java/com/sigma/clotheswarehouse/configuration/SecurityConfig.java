@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,13 +46,19 @@ public class SecurityConfig {
                 .and()
                 .csrf()
                 .disable()
+                .formLogin()
+                .defaultSuccessUrl("https://first-project-clothes.vercel.app/")
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeHttpRequests()
                 .antMatchers("/api/**",
                         "/swagger-resources/**",
                         "/swagger-ui/**",
                         "/clothes-warehouse",
                         "/webjars/**")
-                .permitAll()
+                .hasAnyRole("ADMIN")
                 .anyRequest()
                 .authenticated();
         return http.build();
