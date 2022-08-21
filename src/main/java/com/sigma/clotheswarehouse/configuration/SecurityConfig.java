@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .formLogin()
-                .defaultSuccessUrl("https://first-project-clothes.vercel.app/")
+                .defaultSuccessUrl("https://first-project-clothes.vercel.app/", true)
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
