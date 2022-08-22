@@ -62,6 +62,7 @@ public class BorrowService {
         BorrowGetDto borrowGetDto = new BorrowGetDto();
         borrowGetDto.setId(borrow.getId());
         borrowGetDto.setClientId(borrow.getClient().getId());
+        borrowGetDto.setClientFIO(borrow.getClient().getFio());
         borrowGetDto.setAmount(borrow.getAmount());
         borrowGetDto.setBeginDate(borrow.getBeginDate());
         borrowGetDto.setEndDate(borrow.getEndDate());
@@ -80,6 +81,7 @@ public class BorrowService {
                 BorrowGetDto borrowGetDto = new BorrowGetDto();
                 borrowGetDto.setId(borrow.getId());
                 borrowGetDto.setClientId(borrow.getClient().getId());
+                borrowGetDto.setClientFIO(borrow.getClient().getFio());
                 borrowGetDto.setAmount(borrow.getAmount());
                 borrowGetDto.setBeginDate(borrow.getBeginDate());
                 borrowGetDto.setEndDate(borrow.getEndDate());
