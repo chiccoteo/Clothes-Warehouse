@@ -89,6 +89,7 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <finalName>ClothesWarehouse</finalName>
                 </configuration>
             </plugin>
         </plugins>
