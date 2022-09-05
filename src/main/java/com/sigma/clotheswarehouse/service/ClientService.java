@@ -88,9 +88,6 @@ public class ClientService {
     public ApiResponse getClients() {
         List<Client> clientList = clientRepository.findAll();
         List<ClientGetDto> clientGetDtoList = new LinkedList<>();
-        if (clientList.isEmpty()) {
-            return new ApiResponse(false, "There isn't client");
-        }
         for (Client client : clientList) {
             List<Borrow> borrow = borrowRepository.getBorrowListByClient_Id(client.getId(), false);
             ClientGetDto clientGetDto = new ClientGetDto();
