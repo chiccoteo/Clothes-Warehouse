@@ -2,7 +2,6 @@ package com.sigma.clotheswarehouse.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -35,7 +34,12 @@ public class SecurityConfig {
                 .password(passwordEncoder().encode("123"))
                 .roles("ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(admin);
+        UserDetails user = User.builder()
+                .username("USER")
+                .password(passwordEncoder().encode("123"))
+                .roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(admin, user);
     }
 
 
@@ -46,13 +50,18 @@ public class SecurityConfig {
                 .and()
                 .csrf()
                 .disable()
+                .formLogin()
+                .disable()
+                .httpBasic()
+                .and()
                 .authorizeHttpRequests()
-                .antMatchers("/api/**",
+                .antMatchers("/**",
                         "/swagger-resources/**",
                         "/swagger-ui/**",
+                        "/swagger-ui.html",
                         "/clothes-warehouse",
                         "/webjars/**")
-                .permitAll()
+                .hasRole("ADMIN")
                 .anyRequest()
                 .authenticated();
         return http.build();
@@ -62,7 +71,7 @@ public class SecurityConfig {
     @Bean
     CorsFilter corsFilter() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:3001"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:3001", "https://first-project-clothes.vercel.app"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("*"));

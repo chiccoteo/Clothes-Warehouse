@@ -22,6 +22,11 @@ public class ProductController {
         return productService.getAll(page,size);
     }
 
+    @GetMapping("/all")
+    public HttpEntity<?> getAllWithoutPage() {
+        return productService.getAllWithoutPage();
+    }
+
     @GetMapping("/{id}")
     public HttpEntity<?> getById(@PathVariable UUID id) {
         return productService.getById(id);
