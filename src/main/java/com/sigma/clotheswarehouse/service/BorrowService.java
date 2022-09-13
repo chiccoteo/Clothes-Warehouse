@@ -73,9 +73,6 @@ public class BorrowService {
     public ApiResponse getBorrows() {
         List<Borrow> borrowList = borrowRepository.findByDeletedFalse();
         List<BorrowGetDto> borrowGetDtoList = new LinkedList<>();
-        if (borrowList.isEmpty()) {
-            return new ApiResponse(false, "There isn't borrow");
-        }
         for (Borrow borrow : borrowList) {
             if (!borrow.getClient().isDeleted()) {
                 BorrowGetDto borrowGetDto = new BorrowGetDto();
