@@ -43,9 +43,6 @@ public class MeasurementService {
     public ApiResponse getAllMeasurement() {
         List<Measurement> measurementList = measurementRepository.findAll();
         List<MeasurementGetDto> measurementGetDtoList = new LinkedList<>();
-        if (measurementList.isEmpty()){
-            return new ApiResponse(false, "There isn't measurement");
-        }
         for (Measurement measurement : measurementList) {
             MeasurementGetDto measurementGetDto1 = new MeasurementGetDto();
             measurementGetDto1.setId(measurement.getId());
