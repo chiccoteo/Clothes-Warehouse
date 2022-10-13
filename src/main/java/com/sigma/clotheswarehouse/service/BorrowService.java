@@ -62,6 +62,7 @@ public class BorrowService {
         BorrowGetDto borrowGetDto = new BorrowGetDto();
         borrowGetDto.setId(borrow.getId());
         borrowGetDto.setClientId(borrow.getClient().getId());
+        borrowGetDto.setClientFIO(borrow.getClient().getFio());
         borrowGetDto.setAmount(borrow.getAmount());
         borrowGetDto.setBeginDate(borrow.getBeginDate());
         borrowGetDto.setEndDate(borrow.getEndDate());
@@ -72,14 +73,12 @@ public class BorrowService {
     public ApiResponse getBorrows() {
         List<Borrow> borrowList = borrowRepository.findByDeletedFalse();
         List<BorrowGetDto> borrowGetDtoList = new LinkedList<>();
-        if (borrowList.isEmpty()) {
-            return new ApiResponse(false, "There isn't borrow");
-        }
         for (Borrow borrow : borrowList) {
             if (!borrow.getClient().isDeleted()) {
                 BorrowGetDto borrowGetDto = new BorrowGetDto();
                 borrowGetDto.setId(borrow.getId());
                 borrowGetDto.setClientId(borrow.getClient().getId());
+                borrowGetDto.setClientFIO(borrow.getClient().getFio());
                 borrowGetDto.setAmount(borrow.getAmount());
                 borrowGetDto.setBeginDate(borrow.getBeginDate());
                 borrowGetDto.setEndDate(borrow.getEndDate());

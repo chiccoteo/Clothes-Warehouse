@@ -34,7 +34,12 @@ public class SecurityConfig {
                 .password(passwordEncoder().encode("123"))
                 .roles("ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(admin);
+        UserDetails user = User.builder()
+                .username("USER")
+                .password(passwordEncoder().encode("123"))
+                .roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(admin, user);
     }
 
 
@@ -45,10 +50,15 @@ public class SecurityConfig {
                 .and()
                 .csrf()
                 .disable()
+                .formLogin()
+                .disable()
+                .httpBasic()
+                .and()
                 .authorizeHttpRequests()
-                .antMatchers("/api/**",
+                .antMatchers("/**",
                         "/swagger-resources/**",
                         "/swagger-ui/**",
+                        "/swagger-ui.html",
                         "/clothes-warehouse",
                         "/webjars/**",
                 "/css/", "/js/", "/img/", "/favicon.ico")
@@ -62,7 +72,7 @@ public class SecurityConfig {
     @Bean
     CorsFilter corsFilter() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:3001"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:3001", "https://first-project-clothes.vercel.app"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("*"));

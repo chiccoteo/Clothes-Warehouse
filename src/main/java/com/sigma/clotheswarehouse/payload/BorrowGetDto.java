@@ -13,6 +13,7 @@ import java.util.UUID;
 public class BorrowGetDto {
     private UUID id;
     private Long clientId;
+    private String clientFIO;
     private Double amount;
     private Timestamp beginDate;
     private Timestamp endDate;

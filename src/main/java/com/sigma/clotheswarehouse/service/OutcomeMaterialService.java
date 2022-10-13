@@ -112,8 +112,8 @@ public class OutcomeMaterialService {
         if (optionalOutcomeMaterial.isEmpty())
             return new ApiResponse(false, "Such an outcome material does not exist");
         OutcomeMaterial outcomeMaterial = optionalOutcomeMaterial.get();
-        outcomeMaterialRepo.delete(outcomeMaterial);
         rollbackAfterDeletingOutcomeMaterial(outcomeMaterial);
+        outcomeMaterialRepo.delete(outcomeMaterial);
         return new ApiResponse(true, "Successfully deleted");
     }
 
@@ -123,7 +123,6 @@ public class OutcomeMaterialService {
             Material material = resource.getMaterial();
             material.setAmount(material.getAmount() + resource.getMaterialAmount());
             materials.add(material);
-            resourceForOutcomeMaterialRepo.delete(resource);
         }
         materialRepo.saveAll(materials);
 

@@ -14,14 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -34,10 +33,15 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
 
     public HttpEntity<?> getAll(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
         Page<Product> productPage = repository.findAllByDeletedFalse(pageable);
         List<ProductGetDto> DTOs = mapper.getDTOs(productPage.toList());
-        return ResponseEntity.ok(DTOs);
+        Map<String, Object> response = new HashMap<>();
+        response.put("products", DTOs);
+        response.put("currentPage", productPage.getNumber());
+        response.put("totalItems", productPage.getTotalElements());
+        response.put("totalPages", productPage.getTotalPages());
+        return ResponseEntity.ok(response);
     }
 
     public HttpEntity<?> getById(UUID id) {
@@ -71,8 +75,8 @@ public class ProductService {
                         product.setCode(dto.getCode());
                         product.setColor(dto.getColor());
                         product.setSeriaAmount(dto.getSeriaAmount());
-                        ProductGetDto productGetDto = mapper.getDTO(repository.save(product));
-                        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(true, "PRODUCT_EDITED", productGetDto));
+                        repository.save(product);
+                        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(true, "PRODUCT_EDITED"));
                     }
                     return ResponseEntity.status(400).body(new ApiResponse(false, "CATEGORY_NOT_FOUND"));
                 }
@@ -104,5 +108,9 @@ public class ProductService {
                                     savedProduct.getId()));
         }
         return ResponseEntity.status(400).body(new ApiResponse(false, "CATEGORY_OR_MEASUREMENT_NOT_FOUND"));
+    }
+
+    public HttpEntity<?> getAllWithoutPage() {
+        return ResponseEntity.ok(mapper.getDTOs(repository.findAll()));
     }
 }
