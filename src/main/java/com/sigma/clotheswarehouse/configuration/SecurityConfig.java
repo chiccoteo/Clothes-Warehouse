@@ -50,7 +50,8 @@ public class SecurityConfig {
                         "/swagger-resources/**",
                         "/swagger-ui/**",
                         "/clothes-warehouse",
-                        "/webjars/**")
+                        "/webjars/**",
+                "/css/", "/js/", "/img/", "/favicon.ico")
                 .permitAll()
                 .anyRequest()
                 .authenticated();
